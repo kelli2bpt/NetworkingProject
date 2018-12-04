@@ -21,18 +21,18 @@ int main(int argc, char *argv[])
     }
 
     portno = atoi(argv[2]);
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);           // socket creation
     if(sockfd < 0) 
     {
         fprintf(stderr, "Error opening socket.\n");
-        exit(1);
+        exit(1);                                        // Error with opening socket
     }
         
     server = gethostbyname(argv[1]);
     if(server == NULL) 
     {
         fprintf(stderr,"ERROR, no such host\n");
-        exit(1);
+        exit(1);                                    ?   // Error with host name
     }
     
     bzero((char*) &serv_addr, sizeof(serv_addr));
@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
     bcopy((char*)server->h_addr, (char*)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(portno);
     
-    if(connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) 
+    if(connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)  // Connect socket to server
     {
-        fprintf(stderr, "Error connecting.\n");
+        fprintf(stderr, "Error connecting.\n");                                 // Error connecting to server
         exit(1);
     }
     
@@ -55,14 +55,14 @@ int main(int argc, char *argv[])
         if(n < 0)
         {
             fprintf(stderr, "Error writing.\n");
-            exit(1);
+            exit(1);                                    // Error writing
         }
         bzero(buffer, 256);
         n = read(sockfd, buffer, 255);
         if(n < 0)
         {
             fprintf(stderr, "Error reading.\n");
-            exit(1);
+            exit(1);                                    // Error reading
         }
         printf("%s\n", buffer);
     }
